@@ -203,6 +203,26 @@ class Gitlab::Client
       get("/groups/#{url_encode id}/subgroups", query: options)
     end
 
+    # Get a list of visible descendant groups of this group
+    #
+    # @example
+    #   Gitlab.group_descendants(42)
+    #
+    # @param  [Integer] id The ID of a group.
+    # @param  [Hash] options A customizable set of options.
+    # @option options [String] :skip_groups Skip the group IDs passed.
+    # @option options [String] :all_available Show all the groups you have access to (defaults to false for authenticated users).
+    # @option options [String] :search Return the list of authorized groups matching the search criteria.
+    # @option options [String] :order_by Order groups by name or path. Default is name.
+    # @option options [String] :sort Order groups in asc or desc order. Default is asc.
+    # @option options [String] :statistics Include group statistics (admins only).
+    # @option options [String] :owned Limit to groups owned by the current user.
+    # @return [Array<Gitlab::ObjectifiedHash>] List of descendants groups under a group
+
+    def group_descendants(id, options = {})
+      get("/groups/#{url_encode id}/descendant_groups", query: options)
+    end
+
     # Updates an existing group.
     #
     # @example
